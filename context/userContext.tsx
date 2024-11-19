@@ -1,5 +1,6 @@
 "use client";
-import { createContext, PropsWithChildren, useContext, useState } from "react";
+import { usePersisitedState } from "@/hooks/usePersistedState";
+import { createContext, PropsWithChildren, useContext } from "react";
 
 export type TContextType = {
   value: number;
@@ -10,7 +11,7 @@ export const Context = createContext<TContextType | null>(null); //  create a ne
 
 // Context wrapper component with global state(context) data
 export const ContextWrapper = ({ children }: PropsWithChildren) => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = usePersisitedState("value", 0);
 
   const incrementValue = () => setValue((prev) => prev + 1);
   return (

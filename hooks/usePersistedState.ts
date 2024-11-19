@@ -1,3 +1,4 @@
+"use client";
 import { getItem, setItem } from "@/utils/localstorage";
 import { useEffect, useState } from "react";
 
