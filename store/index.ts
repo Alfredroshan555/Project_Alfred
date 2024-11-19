@@ -8,6 +8,7 @@ export interface UserState {
   setPostDetails: (data: unknown) => void;
 }
 
+// Zustand store
 export const useUserStore = create((set) => ({
   count: 0,
   postDetails: {},

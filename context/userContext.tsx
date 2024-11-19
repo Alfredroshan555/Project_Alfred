@@ -6,8 +6,9 @@ export type TContextType = {
   incrementValue: () => void;
 };
 
-export const Context = createContext<TContextType | null>(null);
+export const Context = createContext<TContextType | null>(null); //  create a new context
 
+// Context wrapper component with global state(context) data
 export const ContextWrapper = ({ children }: PropsWithChildren) => {
   const [value, setValue] = useState(0);
 
