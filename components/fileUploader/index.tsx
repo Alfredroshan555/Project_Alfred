@@ -2,6 +2,7 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "../ui/button";
 import axios from "axios";
+import { RenderContent } from "../RenderContent";
 
 type UploadStatusType = "uploading" | "success" | "started" | "error";
 export const FileUploader = () => {
@@ -16,6 +17,7 @@ export const FileUploader = () => {
     if (!file) return;
 
     setUploadStatus("uploading");
+    setProgress(0);
     const formData = new FormData();
     formData.append("file", file);
 
@@ -23,15 +25,14 @@ export const FileUploader = () => {
       await axios.post("https://httpbin.org/post", formData, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
-          console.log("Progress: ", progressEvent);
           const progress = progressEvent.total
             ? Math.round((progressEvent.loaded * 100) / progressEvent.total)
             : 0;
           setProgress(progress);
         },
       });
-      setProgress(100);
       setUploadStatus("success");
+      setProgress(100);
     } catch (error) {
       setUploadStatus("error");
       setProgress(0);
@@ -42,10 +43,13 @@ export const FileUploader = () => {
     <div>
       <input type="file" onChange={handleFileChange} />
       {file && <p>Selected file: {file?.name}</p>}
-      {file && uploadStatus !== "uploading" && (
+      {/* {file && uploadStatus !== "uploading" && (
         <Button onClick={handleFileUpload}>Upload</Button>
-      )}
-      {uploadStatus === "uploading" && <>Progress {progress}%</>}
+      )} */}
+      <RenderContent isVisible={file && uploadStatus !== "uploading"}>
+        <Button onClick={handleFileUpload}>Upload</Button>
+      </RenderContent>
+      {uploadStatus === "uploading" && <>Progress: {progress}%</>}
       {uploadStatus === "success" && (
         <p className="text-sm text-green-600">File uploaded successfully!</p>
       )}
